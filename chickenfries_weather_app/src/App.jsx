@@ -7,8 +7,8 @@ import Forecast from "./assets/Components/Forecast";
 import Footer from "./assets/Components/Footer";
 import weatherData from "./assets/weatherData.json";  // Import JSON data
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import cloudImg from "./assets/cloud.jpg";
-import nightImg from "./assets/night.jpg";
+import cloudImg from "./assets/Day.jpg";
+import nightImg from "./assets/Nite.jpg";
 
 function App() {
   const [weather, setWeather] = useState({});
@@ -90,7 +90,7 @@ function App() {
             icon="fa-brands fa-skyatlas"
             className="logo__icon"
           />
-          <h1 className="logo__text">skyWatch</h1>
+          <h1 className="logo__text">ChickenFriesWeather</h1>
         </div>
         <SearchBar setCity={setLocation} toggle={toggle} />
         <FontAwesomeIcon
