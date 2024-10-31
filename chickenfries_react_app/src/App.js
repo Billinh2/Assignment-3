@@ -1,7 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
+import React, {useState, useEffect} from "react";
+
 
 function App() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      fetch("http://localhost:3864/user", {method: "GET",  headers: {"content-type": "application/json"}})
+    }
+
+    getData();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
