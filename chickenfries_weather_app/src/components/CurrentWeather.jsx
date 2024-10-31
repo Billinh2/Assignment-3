@@ -54,12 +54,6 @@ const findIcon = (condition) => {
   return icon;
 };
 
-// Function to find the correct icon for the current weather condition
-// const findIcon = (condition) => {
-//   const index = conditonsData.findIndex((item) => item.day === condition);
-//   return conditonsData[index].icon;
-// };
-
 const CurrentWeather = ({ weatherData }) => {
   const condition = weatherData?.text;
 

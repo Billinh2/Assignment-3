@@ -5,6 +5,7 @@ import { CurrentWeather, findIcon } from "./assets/Components/CurrentWeather";
 import TempChart from "./assets/Components/TempChart";
 import Forecast from "./assets/Components/Forecast";
 import Footer from "./assets/Components/Footer";
+import weatherData from "./assets/weatherData.json";  // Import JSON data
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import cloudImg from "./assets/cloud.jpg";
 import nightImg from "./assets/night.jpg";
@@ -16,59 +17,26 @@ function App() {
   const [lon, setLon] = useState("");
   const [toggle, setToggle] = useState(true);
 
-  // Change the background image when the toggle state changes
+  // Effect change background after toggling
   useEffect(() => {
    document.body.style = `background-image:  linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url(${toggle ? cloudImg : nightImg});`
   }, [toggle]);
 
-  // Check if time is day or night
+  // Double checked if it's night or day
   useEffect(() => {
     const hour = new Date().getHours();
     const isDay = hour >=6 && hour < 18; 
     setToggle(isDay);
   }, []);
 
-  // import the API key from .env file
-  const apiKey = import.meta.env.VITE_API_KEY;
 
-  // Get user's location using the Geolocation API
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLat(position.coords.latitude);
-        setLon(position.coords.longitude);
-      },
-      (err) => console.log(err)
-    );
-  }, []);
-
-  // Fetch weather data from the weather API using latitude and longitude
-  useEffect(() => {
-    fetch(
-      `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${lat}, ${lon}&days=3&aqi=no&alerts=yes`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setWeather(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, [lat]);
-
-  // Fetch weather data from the weather API using location from the search bar
-  useEffect(() => {
-    fetch(
-      `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3&aqi=no&alerts=yes`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setWeather(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, [location]);
+    // Simulate setting weather data from JSON based on location
+    const data = weatherData.find(item => item.location === location || item.lat === lat && item.lon === lon);
+    if (data) {
+      setWeather(data);
+    }
+  }, [location, lat, lon]);
 
   // Store the current weather data in an object
   const currentData = {
@@ -79,18 +47,18 @@ function App() {
     text: weather?.current?.condition?.text,
   };
 
-  // Store the extra weather data in an object
+  
   const extraData = {
     pressure: weather?.current?.pressure_mb,
     wind: weather?.current?.wind_mph,
   };
 
-  // Store the forecast data in an array
+  
   const forecastDays = weather?.forecast?.forecastday;
 
-  // Store the hourly temperature data in an array
+  
   const temps = [];
-  weather?.forecast?.forecastday[0].hour.map((hour) => {
+  weather?.forecast?.forecastday[0].hour.forEach((hour) => {
     temps.push(hour.temp_c);
   });
 
@@ -103,18 +71,8 @@ function App() {
   // Convert the date to words
   const dateToWords = (date) => {
     const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
     ];
 
     date = new Date(date);
@@ -170,7 +128,6 @@ function App() {
           <Footer />
         </div>
       </div>
-      {/* <pre>{JSON.stringify(weather, null, 2)}</pre> */}
     </div>
   );
 }
