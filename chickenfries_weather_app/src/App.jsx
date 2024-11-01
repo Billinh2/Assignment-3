@@ -29,7 +29,7 @@ function App() {
     setToggle(isDay);
   }, []);
 
-  // Nina - !!Bill import file in there
+  // Nina - !!Corney import file in there
   const apiKey = import.meta.env.VITE_API_KEY;
 
 
