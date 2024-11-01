@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import SearchBar from "./assets/Components/SearchBar";
-import { CurrentWeather, findIcon } from "./assets/Components/CurrentWeather";
-import TempChart from "./assets/Components/TempChart";
-import Forecast from "./assets/Components/Forecast";
-import Footer from "./assets/Components/Footer";
+import SearchBar from "./components/SearchBar";
+import { CurrentWeather, findIcon } from "./components/CurrentWeather";
+import TempChart from "./components/TempChart";
+import Forecast from "./components/Forecast";
+import Footer from "./components/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import cloudImg from "./assets/Day.jpg";
 import nightImg from "./assets/Nite.jpg";
