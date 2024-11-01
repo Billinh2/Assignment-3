@@ -8,13 +8,14 @@ import uvicorn
 from model1 import WeatherPredictionModel  # Import the model script for training/reusing models
 from starlette.responses import JSONResponse
 from utils import logger
+import os
 
 # Create FastAPI app
 app = FastAPI()
 
 # Define file paths for model and scaler
-model_path = "model.pkl"
-scaler_path = "scaler.pkl"
+model_path =  "model/model.pkl"    
+scaler_path = "model/scaler.pkl"
 
 # Load the pre-trained model and scaler
 def load_model():
@@ -25,7 +26,7 @@ def load_model():
     except FileNotFoundError:
         return None, None
 
-loaded_model, loaded_scaler = load_model()
+
 
 # Add CORS middleware
 app.add_middleware(
@@ -65,7 +66,8 @@ async def read_root():
 
 @app.post("/predict", response_model=PredictionResponse)
 async def predict(data: PredictionRequest):
-    global loaded_model, loaded_scaler
+    
+    loaded_model, loaded_scaler = load_model()
     if loaded_model is None or loaded_scaler is None:
         raise HTTPException(status_code=503, detail="Model not available. Please train the model first.")
     

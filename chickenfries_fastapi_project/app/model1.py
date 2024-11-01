@@ -42,8 +42,8 @@ class WeatherPredictionModel:
         # Save the model and scaler
         joblib.dump(self.model, 'model.pkl')
         joblib.dump(self.scaler, 'scaler.pkl')
-
         # Evaluation
+
         predictions = self.model.predict(X_test)
         mse = mean_squared_error(y_test, predictions)
         r2 = r2_score(y_test, predictions)
@@ -54,8 +54,8 @@ class WeatherPredictionModel:
                 wind_speed_9am, wind_speed_3pm, humidity_9am, humidity_3pm, pressure_9am,
                 pressure_3pm, temp_9am, temp_3pm, cloud_9am, cloud_3pm):
         # Load the model and scaler
-        model = joblib.load('model.pkl')
-        scaler = joblib.load('scaler.pkl')
+        model = joblib.load('model/model.pkl')
+        scaler = joblib.load('model/scaler.pkl')
         
         # Make a prediction based on input
         input_features = np.array([[
@@ -69,4 +69,4 @@ class WeatherPredictionModel:
 # Example usage (for initial training)
 if __name__ == "__main__":
     model = WeatherPredictionModel()
-    model.train()
+    print(model.predict(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
