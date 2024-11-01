@@ -17,19 +17,19 @@ function App() {
   const [lon, setLon] = useState("");
   const [toggle, setToggle] = useState(true);
 
-  // Change the background image when the toggle state changes
+  // Nina- Use this one to change the background when click on the toggle
   useEffect(() => {
    document.body.style = `background-image:  linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url(${toggle ? cloudImg : nightImg});`
   }, [toggle]);
 
-  // Check if time is day or night
+  // Nina- day or night 
   useEffect(() => {
     const hour = new Date().getHours();
     const isDay = hour >=6 && hour < 18; 
     setToggle(isDay);
   }, []);
 
-  // import the API key from .env file
+  // Nina - !!Bill import file in there
   const apiKey = import.meta.env.VITE_API_KEY;
 
   // Get user's location using the Geolocation API
