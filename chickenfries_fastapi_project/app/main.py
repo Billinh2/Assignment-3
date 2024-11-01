@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import joblib
 import numpy as np
 import uvicorn
-from model1 import WeatherPredictionModel  # Import the model script for training/reusing models
+from model import WeatherPredictionModel  # Import the model script for training/reusing models
 from starlette.responses import JSONResponse
 from utils import logger
 import os
