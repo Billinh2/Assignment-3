@@ -47,7 +47,7 @@ function App() {
       });
   }, [lat]);
 
-  // Fetch weather data from the weather API using location from the search bar
+  // Fetch weather data from the weather API using location from the search bar /// Bill make change here to import data
   useEffect(() => {
     fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3&aqi=no&alerts=yes`
@@ -70,16 +70,16 @@ function App() {
     text: weather?.current?.condition?.text,
   };
 
-  // Store the extra weather data in an object
+  // Store the extra weather data 
   const extraData = {
     pressure: weather?.current?.pressure_mb,
     wind: weather?.current?.wind_mph,
   };
 
-  // Store the forecast data in an array
+  // forecast data in an array
   const forecastDays = weather?.forecast?.forecastday;
 
-  // Store the hourly temperature data in an array
+  // Store the hourly temperature data 
   const temps = [];
   weather?.forecast?.forecastday[0].hour.map((hour) => {
     temps.push(hour.temp_c);
