@@ -5,10 +5,10 @@ import { CurrentWeather, findIcon } from "./assets/Components/CurrentWeather";
 import TempChart from "./assets/Components/TempChart";
 import Forecast from "./assets/Components/Forecast";
 import Footer from "./assets/Components/Footer";
-import weatherData from "./assets/weatherData.json";  // Import JSON data
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import cloudImg from "./assets/Day.jpg";
 import nightImg from "./assets/Nite.jpg";
+//remember import data
 
 function App() {
   const [weather, setWeather] = useState({});
