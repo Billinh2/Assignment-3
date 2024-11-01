@@ -30,7 +30,7 @@ loaded_model, loaded_scaler = load_model()
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins, adjust as needed for security
+    allow_origins=["http://localhost:8386"],  # Allows all origins, adjust as needed for security
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
