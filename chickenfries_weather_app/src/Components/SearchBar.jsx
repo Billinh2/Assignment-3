@@ -1,67 +1,55 @@
-import { useState, useEffect } from "react";
-import {useDebounce} from "@uidotdev/usehooks"; // Import the useDebounce hook
+import { useState, useEffect, useCallback } from "react";
+import { useDebounce } from "@uidotdev/usehooks"; // Import the useDebounce hook
+import { useMutation } from "@tanstack/react-query";
+import { fetchSuggestions } from "../utils/api/fetchSuggestions";
 import "./SearchBar.css";
 
 const SearchBar = ({ setCity, toggle }) => {
   const [location, setLocation] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Use debounced location value
   const debouncedLocation = useDebounce(location, 500); // 500ms delay
 
-  const fetchSuggestions = async (userInput) => {
-    setIsLoading(true);
-    try {
-      const fetchFromAPI = await fetch(
-        `https://api.weatherapi.com/v1/search.json?key=${process.env.WEATHER_API_KEY}&q=${userInput}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      );
-
-      if (!fetchFromAPI.ok) {
-        throw new Error("Failed to fetch auto completion");
-      }
-
-      const result = await fetchFromAPI.json();
-      setSuggestions(result);
-    } catch (error) {
-      console.error(error);
-      setSuggestions([]);
-    } finally {
-      setIsLoading(false);
+  // Define the mutation for fetching suggestions
+  const { mutate: getSuggestions, isLoading, isError } = useMutation(
+    fetchSuggestions,
+    {
+      onSuccess: (data) => {
+        setSuggestions(data);
+      },
+      onError: () => {
+        setSuggestions([]); // Clear suggestions if there's an error
+      },
+      cacheTime: 30
     }
-  };
-
-  const handleChange = (e) => {
-    const userInput = e.target.value;
-    setLocation(userInput);
-  };
+  );
 
   // Trigger fetchSuggestions only when debouncedLocation changes
   useEffect(() => {
     if (debouncedLocation.length > 0) {
-      fetchSuggestions(debouncedLocation);
+      getSuggestions(debouncedLocation); // Call mutation with debounced input
     } else {
-      setSuggestions([]);
+      setSuggestions([]); // Clear suggestions if input is empty
     }
-  }, [debouncedLocation]);
+  }, [debouncedLocation, getSuggestions]);
 
-  const handleSubmit = (e) => {
+  // Handle input change
+  const handleChange = useCallback((e) => {
+    setLocation(e.target.value);
+  }, [location, setLocation]);
+
+  // Handle form submission
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     setCity(location);
     setSuggestions([]); // Clear suggestions on submit
-  };
+  }, []);
 
-  const handleSuggestionClick = (suggestion) => {
+  // Handle suggestion click
+  const handleSuggestionClick = useCallback((suggestion) => {
     setLocation(suggestion?.name);
     setCity(suggestion?.name);
     setSuggestions([]); // Clear suggestions on selection
-  };
+  }, []);
 
   return (
     <div className="search-bar">
@@ -93,8 +81,11 @@ const SearchBar = ({ setCity, toggle }) => {
             </svg>
           </label>
 
+          {/* Display suggestions, loading spinner, or error message */}
           {isLoading ? (
             <div className="loading-spinner"></div>
+          ) : isError ? (
+            <div className="error-message">Failed to load suggestions</div>
           ) : (
             suggestions.length > 0 && (
               <ul className="suggestions-list">

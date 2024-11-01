@@ -1,9 +1,12 @@
 import "./App.css";
 import MainPage from "./page/mainPage";
-
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query"
 function App() {
+  const queryClient = new QueryClient()
   return (
-    <MainPage />
+    <QueryClientProvider client={queryClient}>
+      <MainPage />
+    </QueryClientProvider>
   )
 }
 
