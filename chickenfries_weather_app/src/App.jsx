@@ -32,6 +32,16 @@ function App() {
   // Nina - !!Corney import file in there
   const apiKey = import.meta.env.VITE_API_KEY;
 
+  // Get user's location 
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLat(position.coords.latitude);
+        setLon(position.coords.longitude);
+      },
+      (err) => console.log(err)
+    );
+  }, []);
 
   // Fetch weather data from the weather API using latitude and longitude
   useEffect(() => {
