@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import SearchBar from "../Components/SearchBar";
 import { CurrentWeather, findIcon } from "../Components/CurrentWeather";
 import TempChart from "../Components/TempChart";
+import HumidityChart from "../Components/HumidityChart"; // Import HumidityChart
+import RainfallChart from "../Components/RainFallChart";// Import RainfallChart
 import Forecast from "../Components/Forecast";
 import Footer from "../Components/Footer";
 import ExtraData from "../Components/ExtraData";
@@ -75,6 +77,12 @@ function MainPage() {
   const eightTemps = temps.filter((_, i) => i % 3 === 0);
   const nineTemps = [...eightTemps, temps[temps.length - 1]];
 
+  // Humidity data for pie chart
+  const humidityData = forecastDays?.map(day => day.day?.avghumidity);
+
+  // Rainfall data for bar chart
+  const rainfallData = forecastDays?.map(day => day.day?.totalprecip_mm);
+
   // Convert date to a more readable format
   const dateToWords = (date) => {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -104,27 +112,29 @@ function MainPage() {
 
       {!isQueryEnabled || !isLoadingLocation && (
         <div className="grid-two">
-        <div className="grid-one">
-          <CurrentWeather weatherData={currentData} />
-          <div className="grid-three">
-            {forecastDays?.map((day) => (
-              <Forecast
-                key={day.date}
-                date={dateToWords(day.date)}
-                icon={findIcon(day.day?.condition?.text)}
-                value={day.day?.avghumidity}
-              />
-            ))}
+          <div className="grid-one">
+            <CurrentWeather weatherData={currentData} />
+            <div className="grid-three">
+              {forecastDays?.map((day) => (
+                <Forecast
+                  key={day.date}
+                  date={dateToWords(day.date)}
+                  icon={findIcon(day.day?.condition?.text)}
+                  value={day.day?.avghumidity}
+                />
+              ))}
+            </div>
+            <div className="grid-three">
+              <ExtraData extraData={extraData} />
+            </div>
+            <RainfallChart rainfallData={rainfallData} /> {/* Adding RainfallChart component with data passed as props */}
           </div>
-          <div className="grid-three">
-            <ExtraData extraData={extraData} />
+          <div className="grid-four">
+            <TempChart tempsData={nineTemps} />
+            <HumidityChart humidityData={humidityData} /> {/* Adding HumidityChart component with data passed as props */}
+            <Footer />
           </div>
         </div>
-        <div className="grid-four">
-          <TempChart tempsData={nineTemps} />
-          <Footer />
-        </div>
-      </div>
       )}
     </div>
   );
