@@ -7,8 +7,8 @@ import './HumidityChart.css';
 Chart.register(ArcElement, Tooltip, Legend);
 
 const HumidityChart = ({ humidityData = [] }) => {
-  // Sample labels for the pie chart
-  const labels = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5"];
+  // labels for the pie chart
+  const labels = ["Day 1", "Day 2", "Day 3"];
 
   // Data configuration
   const data = {

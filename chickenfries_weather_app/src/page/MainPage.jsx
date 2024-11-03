@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import SearchBar from "../Components/SearchBar";
 import { CurrentWeather, findIcon } from "../Components/CurrentWeather";
 import TempChart from "../Components/TempChart";
-import HumidityChart from "../Components/HumidityChart"; // Import HumidityChart
-import RainfallChart from "../Components/RainFallChart";// Import RainfallChart
+import HumidityChart from "../Components/HumidityChart";
+import RainfallChart from "../Components/RainFallChart";
 import Forecast from "../Components/Forecast";
 import Footer from "../Components/Footer";
 import ExtraData from "../Components/ExtraData";
@@ -127,11 +127,11 @@ function MainPage() {
             <div className="grid-three">
               <ExtraData extraData={extraData} />
             </div>
-            <RainfallChart rainfallData={rainfallData} /> {/* Adding RainfallChart component with data passed as props */}
+            <RainfallChart rainfallData={rainfallData} /> 
           </div>
           <div className="grid-four">
             <TempChart tempsData={nineTemps} />
-            <HumidityChart humidityData={humidityData} /> {/* Adding HumidityChart component with data passed as props */}
+            <HumidityChart humidityData={humidityData} />
             <Footer />
           </div>
         </div>

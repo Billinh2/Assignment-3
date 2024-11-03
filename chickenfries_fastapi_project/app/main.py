@@ -110,7 +110,7 @@ async def delete_model():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete model: {str(e)}")
 
-# Error handling example
+# Error handling 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     return JSONResponse(status_code=exc.status_code, content={"error": str(exc.detail)})
